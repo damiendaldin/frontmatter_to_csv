@@ -1,6 +1,30 @@
 # metadata_to_csv
 
-will parse any file frontmatter and outpout a CSV containing files metadata
+simple python script that parses files' frontmatter section and outpout a CSV containing files metadata (key-value pairs embedded in frontmatter secion)
+
+a Frontmatter is a YAML style key-value pair section delimited by triple-dashed-lines above and under:
+
+```yaml
+---
+date: 2024-02-03
+topics:
+  - data
+  - intelligence
+  - quick win
+---
+```
+
+```
+
+                _            _       _           _                         
+ _ __ ___   ___| |_ __ _  __| | __ _| |_ __ _   | |_ ___     ___ _____   __
+| '_ ` _ \ / _ \ __/ _` |/ _` |/ _` | __/ _` |  | __/ _ \   / __/ __\ \ / /
+| | | | | |  __/ || (_| | (_| | (_| | || (_| |  | || (_) | | (__\__ \\ V / 
+|_| |_| |_|\___|\__\__,_|\__,_|\__,_|\__\__,_|___\__\___/___\___|___/ \_/  
+                                            |_____|    |_____|             
+
+
+```
 
 ## Authors
 
