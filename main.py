@@ -62,7 +62,7 @@ if __name__ == "__main__":
             print("read config file successfully\r")
         main(f"{os.getcwd()}{os.sep}{files_directory_name}", config=config)
         print(
-            f'find your CSV metada file at: {os.getcwd()}{os.sendfile}{config["csv_file_name"]}'
+            f'find your CSV metada file at: {os.getcwd()}{os.sep}{config["csv_file_name"]}'
         )
     except:
         print("an error occured, so sorry")
