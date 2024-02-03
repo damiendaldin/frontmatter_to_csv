@@ -26,8 +26,9 @@ def main(dir_path: str, config: dict) -> None:
     files = []
     for file_path in os.listdir(directory):
         full_path = os.path.join(dir_path, file_path.decode(config["encoding"]))
-        if os.path.isfile(full_path):
-            files.append(full_path)
+        absolute_path = os.path.abspath(full_path)
+        if os.path.isfile(absolute_path):
+            files.append(absolute_path)
 
     metadata_list = []
     for file in files:
@@ -58,8 +59,8 @@ if __name__ == "__main__":
         with open("config.yml", "r") as config_file:
             config = yaml.load(config_file, Loader=yaml.FullLoader)
             print("read config file successfully\r")
-        main(f"{os.getcwd()}/{files_directory_name}/", config=config)
-        print(f'find your CSV metada file at: {os.getcwd()}/{config["csv_file_name"]}')
+        main(f"{os.getcwd()}{os.sep}{files_directory_name}", config=config)
+        print(f'find your CSV metada file at: {os.getcwd()}{os.sendfile}{config["csv_file_name"]}')
     except:
         print("an error occured, so sorry")
 
