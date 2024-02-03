@@ -1,4 +1,5 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![YAML](https://img.shields.io/badge/yaml-%23ffffff.svg?style=for-the-badge&logo=yaml&logoColor=151515)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
@@ -118,3 +119,19 @@ file_type: txt
 
 abcdefg
 ```
+
+## Run in Docker container
+
+you don't want to bother setting your local machine up with Python, you can run
+the script in a Docker container
+
+1. edit `docker.sh` variables to fit your situation
+2. execute script
+
+  ```bash
+  chmod +x docker.sh
+
+  ./docker.sh
+  ````
+
+3. retrieve your metadata dataset in a csv file in this directory: `metadata.csv`
