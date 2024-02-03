@@ -1,0 +1,7 @@
+fields:
+  - author
+  - country
+  - file_type
+
+csv_file_name: metadata.csv
+encoding: utf-8
