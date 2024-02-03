@@ -1,6 +1,6 @@
 # metadata_to_csv
 
-simple python script that parses files' frontmatter section and outpout a CSV containing files metadata (key-value pairs embedded in frontmatter secion)
+simple python script that parses files' frontmatter section and output files' metadata as a machine-readable CSV file
 
 a Frontmatter is a YAML style key-value pair section delimited by triple-dashed-lines above and under:
 
