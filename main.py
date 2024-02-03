@@ -4,12 +4,20 @@ import pandas as pd
 import yaml
 
 LICENSE_TXT = '''
-
     metadata_to_csv  Copyright (C) 2024  Maxime Bonin
     This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
     This is free software, and you are welcome to redistribute it
     under certain conditions; type `show c' for details.
 
+'''
+
+PRODUCT_ASCII = '''
+                _            _       _           _                         
+ _ __ ___   ___| |_ __ _  __| | __ _| |_ __ _   | |_ ___     ___ _____   __
+| '_ ` _ \ / _ \ __/ _` |/ _` |/ _` | __/ _` |  | __/ _ \   / __/ __\ \ / /
+| | | | | |  __/ || (_| | (_| | (_| | || (_| |  | || (_) | | (__\__ \\ V / 
+|_| |_| |_|\___|\__\__,_|\__,_|\__,_|\__\__,_|___\__\___/___\___|___/ \_/  
+                                            |_____|    |_____|  
 '''
 
 def main(dir_path: str, config: dict) -> None:
@@ -36,6 +44,7 @@ def main(dir_path: str, config: dict) -> None:
 
 
 if __name__ == "__main__":
+    print(PRODUCT_ASCII)
     print(LICENSE_TXT)
 
     try:
