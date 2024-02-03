@@ -125,7 +125,7 @@ abcdefg
 you don't want to bother setting your local machine up with Python, you can run
 the script in a Docker container
 
-1. edit `docker.sh` variables to fit your situation
+1. edit [`docker.sh`](docker.sh) variables to fit your situation
 2. execute script
 
   ```bash
