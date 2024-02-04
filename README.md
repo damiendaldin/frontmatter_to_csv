@@ -56,10 +56,11 @@ as long as a frontmatter section exists in a file of any type, **metadata_to_csv
 
 ```csv
 author,country,file_type
-Kid Kubernetes,USA,yaml
-gunther,germany,python
+Kid Kubernetes,USA,null
 Jacques Derrida,France,markdown
+Heraclitus,ionia,null
 max,canada,txt
+gunther,germany,python
 ```
 
 ### from collection of files in a directory
