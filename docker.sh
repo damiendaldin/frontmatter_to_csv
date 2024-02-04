@@ -1,4 +1,4 @@
-#!/usr/bin/bash 
+#!/usr/bin/bash
 
 ###################################################################
 #Script Name	: metadata_to_csv in Docker
@@ -11,15 +11,25 @@
 #Email         	:
 ###################################################################
 
+##
+#    TWO FIRST VARIABLES MUST BE CHANGED BY USER BEFORE RUNNING SCRIPT
+#      - csvFileName
+#      - absolutePathToFiles
+##
+
+##
+# VALUE MUST MATCH CONFIGS: look for key "csv_file_name" in config.yml file
+csvFileName="example_metadata.csv"
+##
+
+##
+# replace this value by the absolute file path to this project on your local filesystem
+absolutePathToFiles= </the/absolute/path/metadata_to_csv >/${dirName}
+##
+
 imageName="metadata_to_csv"
 containerName="metadata_to_csv_container"
 dirName="example_files"
-csvFileName="metadata.csv" # look for key "csv_file_name" in config.yml file
-
-## 
-# replace this value by the absolute file path to this project on your local filesystem
-absolutePathToFiles=</the/absolute/path/metadata_to_csv>/${dirName}
-##
 
 docker build -t ${imageName} .
 
