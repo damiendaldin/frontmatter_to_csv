@@ -6,7 +6,7 @@
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![Microsoft Excel readble CSV](https://img.shields.io/badge/Microsoft_Excel-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
 
-# metadata_to_csv
+# frontmatter_to_csv
 
 simple python script that parses files' frontmatter section and output files' metadata as a machine-readable CSV file
 
