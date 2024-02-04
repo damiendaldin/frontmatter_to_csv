@@ -5,3 +5,5 @@ fields:
 
 csv_file_name: metadata.csv
 encoding: utf-8
+
+logging_level: "INFO" # pick from these values: ["ERROR", "INFO"]

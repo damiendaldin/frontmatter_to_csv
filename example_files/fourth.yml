@@ -1,7 +1,6 @@
 ---
 author: Kid Kubernetes
 country: USA
-file_type: yaml
 ---
 kind: ultraNice
 api: basic/v1

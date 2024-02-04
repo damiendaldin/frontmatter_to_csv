@@ -1,4 +1,5 @@
-import os, sys
+import os, sys, logging
+from typing import List
 import frontmatter
 import pandas as pd
 import yaml
@@ -21,15 +22,28 @@ PRODUCT_ASCII = """
 """
 
 
-def main(dir_path: str, config: dict) -> None:
-    directory = os.fsencode(dir_path)
+def get_all_files_from(directory: str) -> List[str]:
+    """
 
+    Walks given directory tree and returns all files path in a list
+
+    Parameters:
+    - directory (str): name of the directory to extract files from
+
+    Returns:
+    List[str]: a list of the path to all files contained within given directory
+
+    """
     files = []
-    for file_path in os.listdir(directory):
-        full_path = os.path.join(dir_path, file_path.decode(config["encoding"]))
-        absolute_path = os.path.abspath(full_path)
-        if os.path.isfile(absolute_path):
-            files.append(absolute_path)
+    for root, _, filenames in os.walk(directory):
+        for filename in filenames:
+            full_path = os.path.join(root, filename)
+            files.append(os.path.abspath(full_path))
+    return files
+
+
+def main(dir_path: str, config: dict) -> None:
+    files = get_all_files_from(directory=dir_path)
 
     metadata_list = []
     for file in files:
@@ -40,7 +54,10 @@ def main(dir_path: str, config: dict) -> None:
                 try:
                     metadata_obj[key] = content[key]
                 except:
-                    print(f"Info: key '{key}' doesn't exist in file {file}: will just skip this field then")
+                    metadata_obj[key] = "null"
+                    logging.info(
+                        f"frontmatter key '{key}' doesn't exist in file {file}: will just skip this field"
+                    )
 
             metadata_list.append(metadata_obj)
 
@@ -55,19 +72,32 @@ if __name__ == "__main__":
     try:
         files_directory_name = sys.argv[1]
     except:
-        print("No arguments were given")
-        print("file directory(within current directory) name is expected\r")
-        exit(1)
+        logging.error("No root directory argument was given as first parameter")
+        logging.info("root file directory(within current directory) name is expected\r")
+        sys.exit(1)
 
     try:
         with open("config.yml", "r") as config_file:
             config = yaml.load(config_file, Loader=yaml.FullLoader)
-            print("read config file successfully\r")
-        main(f"{os.getcwd()}{os.sep}{files_directory_name}", config=config)
-        print(
-            f'find your CSV metada file at: {os.getcwd()}{os.sep}{config["csv_file_name"]}'
-        )
-    except:
-        print("an error occured, so sorry")
+            logging.basicConfig(
+                level=(
+                    logging.INFO if config["logging_level"] == "INFO" else logging.ERROR
+                ),
+                format="%(asctime)s [%(levelname)s] %(message)s",
+                datefmt="%Y-%m-%d %H:%M:%S",
+            )
+    except Exception as e:
+        logging.error("could not read configuration file config.yml and set logger")
+        sys.exit(1)
 
-    exit(0)
+    try:
+        main(f"{os.getcwd()}{os.sep}{files_directory_name}", config=config)
+        logging.info(
+            f'find your CSV metadata file at: {os.getcwd()}{os.sep}{config["csv_file_name"]}'
+        )
+    except Exception as e:
+        logging.error(f"could not produce CSV file")
+        logging.error(f"details: {str(e)}", exc_info=True)
+        sys.exit(1)
+
+    sys.exit(0)
