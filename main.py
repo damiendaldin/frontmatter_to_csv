@@ -37,7 +37,10 @@ def main(dir_path: str, config: dict) -> None:
             metadata_obj = {}
             content = frontmatter.load(f)
             for key in config["fields"]:
-                metadata_obj[key] = content[key]
+                try:
+                    metadata_obj[key] = content[key]
+                except:
+                    print(f"Info: key '{key}' doesn't exist in file {file}: will just skip this field then")
 
             metadata_list.append(metadata_obj)
 
