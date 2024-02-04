@@ -12,6 +12,7 @@ simple python script that parses files' frontmatter section and output files' me
 
 a Frontmatter is a YAML style key-value pair section delimited by triple-dashed-lines above and under:
 
+### example of a simple frontmatter section:
 ```yaml
 ---
 date: 2024-02-03
