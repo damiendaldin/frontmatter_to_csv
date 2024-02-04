@@ -3,7 +3,7 @@ fields:
   - country
   - file_type
 
-csv_file_name: metadata.csv
+csv_file_name: example_metadata.csv
 encoding: utf-8
 
 logging_level: "INFO" # pick from these values: ["ERROR", "INFO"]
