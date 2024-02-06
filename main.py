@@ -69,12 +69,12 @@ def get_all_metadata_from(files: List[str], encoding: str) -> List:
     return metadata_list
 
 
-def main(dir_path: str, config: dict) -> None:
+def main(dir_path: str, encoding: str, csv_filename: str) -> None:
     files = get_all_files_from(dir_path)
-    metadata_list = get_all_metadata_from(files=files, encoding=config["encoding"])
+    metadata_list = get_all_metadata_from(files=files, encoding=encoding)
 
     df = pd.DataFrame(metadata_list)
-    df.to_csv(config["csv_file_name"], index=False)
+    df.to_csv(csv_filename, index=False)
 
 
 if __name__ == "__main__":
@@ -84,8 +84,8 @@ if __name__ == "__main__":
     try:
         files_directory_name = sys.argv[1]
     except:
-        logging.error("No root directory argument was given as first parameter")
-        logging.info("root file directory(within current directory) name is expected\r")
+        print("No root directory argument was given as first parameter")
+        print("root file directory(within current directory) name is expected\r")
         sys.exit(1)
 
     try:
@@ -103,7 +103,19 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
-        main(f"{os.getcwd()}{os.sep}{files_directory_name}", config=config)
+        csv_filename = sys.argv[2]
+    except:
+        csv_filename = config["csv_file_name"]
+        logging.info(
+            "no csv_filename provided as second argument. will use configured value"
+        )
+
+    try:
+        main(
+            f"{os.getcwd()}{os.sep}{files_directory_name}",
+            encoding=config["encoding"],
+            csv_filename=csv_filename,
+        )
     except Exception as e:
         logging.error(f"could not produce CSV file")
         logging.error(f"details: {str(e)}", exc_info=True)
