@@ -42,11 +42,21 @@ def get_all_files_from(directory: str) -> List[str]:
     return files
 
 
-def main(dir_path: str, config: dict) -> None:
-    files = get_all_files_from(directory=dir_path)
+def get_all_metadata_from(files: List[str], encoding: str) -> List:
+    """
+
+    Discovers keys from frontmatter and extracts all of its metadata
+
+    Parameters:
+    - files: List of strings that are absolute paths toward files
+
+    Returns:
+    - List of metadata objects (dictionaries)
+
+    """
     metadata_list = []
     for file in files:
-        with open(file, encoding=config["encoding"]) as f:
+        with open(file, encoding=encoding) as f:
             metadata_obj = {}
             content = frontmatter.load(f)
             for key in sorted(content.keys()):
@@ -55,6 +65,13 @@ def main(dir_path: str, config: dict) -> None:
             metadata_obj["filepath"] = file
 
             metadata_list.append(metadata_obj)
+
+    return metadata_list
+
+
+def main(dir_path: str, config: dict) -> None:
+    files = get_all_files_from(dir_path)
+    metadata_list = get_all_metadata_from(files=files, encoding=config["encoding"])
 
     df = pd.DataFrame(metadata_list)
     df.to_csv(config["csv_file_name"], index=False)
@@ -87,12 +104,12 @@ if __name__ == "__main__":
 
     try:
         main(f"{os.getcwd()}{os.sep}{files_directory_name}", config=config)
-        logging.info(
-            f'find your CSV metadata file at: {os.getcwd()}{os.sep}{config["csv_file_name"]}'
-        )
     except Exception as e:
         logging.error(f"could not produce CSV file")
         logging.error(f"details: {str(e)}", exc_info=True)
         sys.exit(1)
 
+    logging.info(
+        f'find your CSV metadata file at: {os.getcwd()}{os.sep}{config["csv_file_name"]}'
+    )
     sys.exit(0)
