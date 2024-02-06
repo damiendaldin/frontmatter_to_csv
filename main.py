@@ -44,20 +44,15 @@ def get_all_files_from(directory: str) -> List[str]:
 
 def main(dir_path: str, config: dict) -> None:
     files = get_all_files_from(directory=dir_path)
-
     metadata_list = []
     for file in files:
         with open(file, encoding=config["encoding"]) as f:
             metadata_obj = {}
             content = frontmatter.load(f)
-            for key in config["fields"]:
-                try:
-                    metadata_obj[key] = content[key]
-                except:
-                    metadata_obj[key] = "null"
-                    logging.info(
-                        f"frontmatter key '{key}' doesn't exist in file {file}: will just skip this field"
-                    )
+            for key in sorted(content.keys()):
+                metadata_obj[key] = content[key]
+
+            metadata_obj["filepath"] = file
 
             metadata_list.append(metadata_obj)
 
