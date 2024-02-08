@@ -2,3 +2,13 @@ csv_file_name: example_metadata.csv
 encoding: utf-8
 
 logging_level: "INFO" # pick from these values: ["ERROR", "INFO"]
+
+allowed_extensions:
+  - .md
+  - .txt
+  - .yaml
+  - .yml
+  - .py
+  - .js
+  - .c
+  - .go

@@ -22,13 +22,14 @@ PRODUCT_ASCII = """
 """
 
 
-def get_all_files_from(directory: str) -> List[str]:
+def get_all_files_from(directory: str, allowed_extensions: List[str]) -> List[str]:
     """
 
     Walks given directory tree and returns all files path in a list
 
     Parameters:
     - directory (str): name of the directory to extract files from
+    - allowed_extensions List(str): list of allowed extensions.
 
     Returns:
     List[str]: a list of the path to all files contained within given directory
@@ -37,8 +38,10 @@ def get_all_files_from(directory: str) -> List[str]:
     files = []
     for root, _, filenames in os.walk(directory):
         for filename in filenames:
-            full_path = os.path.join(root, filename)
-            files.append(os.path.abspath(full_path))
+            _, file_extension = os.path.splitext(filename)
+            if file_extension.lower() in allowed_extensions:
+                full_path = os.path.join(root, filename)
+                files.append(os.path.abspath(full_path))
     return files
 
 
@@ -69,12 +72,14 @@ def get_all_metadata_from(files: List[str], encoding: str) -> List:
     return metadata_list
 
 
-def main(dir_path: str, encoding: str, csv_filename: str) -> None:
-    files = get_all_files_from(dir_path)
-    metadata_list = get_all_metadata_from(files=files, encoding=encoding)
+def main(dir_path: str, configs: dict) -> None:
+    files = get_all_files_from(
+        dir_path, allowed_extensions=configs["allowed_extensions"]
+    )
+    metadata_list = get_all_metadata_from(files=files, encoding=configs["encoding"])
 
     df = pd.DataFrame(metadata_list)
-    df.to_csv(csv_filename, index=False)
+    df.to_csv(configs["csv_file_name"], index=False)
 
 
 if __name__ == "__main__":
@@ -90,10 +95,12 @@ if __name__ == "__main__":
 
     try:
         with open("config.yml", "r") as config_file:
-            config = yaml.load(config_file, Loader=yaml.FullLoader)
+            configs = yaml.load(config_file, Loader=yaml.FullLoader)
             logging.basicConfig(
                 level=(
-                    logging.INFO if config["logging_level"] == "INFO" else logging.ERROR
+                    logging.INFO
+                    if configs["logging_level"] == "INFO"
+                    else logging.ERROR
                 ),
                 format="%(asctime)s [%(levelname)s] %(message)s",
                 datefmt="%Y-%m-%d %H:%M:%S",
@@ -105,23 +112,18 @@ if __name__ == "__main__":
     try:
         csv_filename = sys.argv[2]
     except:
-        csv_filename = config["csv_file_name"]
         logging.info(
-            "no csv_filename provided as second argument. will use configured value"
+            f"no csv_filename provided as second argument. will use default value: {configs['csv_file_name']}"
         )
 
     try:
-        main(
-            f"{os.getcwd()}{os.sep}{files_directory_name}",
-            encoding=config["encoding"],
-            csv_filename=csv_filename,
-        )
+        main(f"{os.getcwd()}{os.sep}{files_directory_name}", configs=configs)
     except Exception as e:
         logging.error(f"could not produce CSV file")
         logging.error(f"details: {str(e)}", exc_info=True)
         sys.exit(1)
 
     logging.info(
-        f'find your CSV metadata file at: {os.getcwd()}{os.sep}{config["csv_file_name"]}'
+        f'find your CSV metadata file at: {os.getcwd()}{os.sep}{configs["csv_file_name"]}'
     )
     sys.exit(0)
