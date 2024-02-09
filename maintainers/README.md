@@ -8,7 +8,7 @@ we publish to Dockerhub
 
 ## versionning
 
-SEMVER (MAJOR.MINOR.PATCH)
+[SEMVER (MAJOR.MINOR.PATCH)](https://semver.org/)
 
 every build increment will demand to increment the minor version number
 
